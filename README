@@ -1,2 +1,29 @@
-Coleção de scripts escritos em shell para refatoração de código.
+REFACTORING SCRIPTS
+===================
+
+  Coleção de scripts escritos em shell para refatoração de código.
+
+
+EXECUNTANDO UM SCRIPT
+=====================
+
+  Para executar o script find-replace.sh, por exemplo, primeiramente dê a ele
+  permissão de execução, rodando o seguinte comando no terminal:
+
+    $ chmod +x find-replace.sh
+
+  Em seguinda pode executar, com a opção de ajuda, fazendo:
+
+    $ ./find-replace.sh -h
+
+  Se não quiser dar permissão de execução ao arquivo, pode rodar o script , com
+  a opção de ajuda, da seguinte forma:
+
+    $ bash find-replace.sh -h
+
+
+AUTOR
+=====
+
+  Hugo Henriques Maia Vieira <hugouenf@gmail.com>
 
