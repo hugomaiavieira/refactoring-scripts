@@ -27,6 +27,7 @@
 #
 # Licença: GPL.
 #
+# TODO: Adicionar opção de excluir diretórios e arquivos da busca.
 
 #=======================    Variáveis e chaves    ==============================
 
