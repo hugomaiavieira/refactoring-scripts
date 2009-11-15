@@ -88,7 +88,6 @@ recursivo=''
 exclude_file=''
 exclude_dir=''
 
-
 #===========    Tratamento de opções de linha de comando    ====================
 
 while test -n "$1"
@@ -98,19 +97,19 @@ do
     -f | --file)
       shift
 
-      local="$1"
+      diretorio="$1"
       f=1
 
-      if test -z "$local"
+      if test -z "$diretorio"
       then
         echo "Faltou argumento para -f."
         exit 1
       fi
 
-      if test -d "$local"
+      if test -d "$diretorio"
       then
         recursivo='-R'
-      elif ! test -e "$local"
+      elif ! test -e "$diretorio"
       then
         echo "O arquivo ou diretório atribuído ao parâmetro -f não existe."
         exit 1
@@ -183,24 +182,21 @@ do
   shift
 done
 
-#=========================    Processamento    =================================
-
 if ( test "$f" = 0 || test "$o" = 0 || test "$n" = 0 )
 then
   echo "$MENSSAGEM_ERRO"
   exit 1
 fi
 
+#=========================    Processamento    =================================
+
 contador=0
-for i in $(grep -l "$recursivo" "$antiga" "$local" $exclude_dir $exclude_file)
+for i in $(grep -l "$recursivo" "$antiga" "$diretorio" $exclude_dir $exclude_file)
 do
   sed "s/"$antiga"/"$nova"/g" $i > $i-temporario
   mv $i-temporario $i
 
-  if test "$quiet" = 0
-  then
-    echo "$i"
-  fi
+  test "$quiet" = 0 && echo "$i"
 
   contador=$((contador+1))
 done
