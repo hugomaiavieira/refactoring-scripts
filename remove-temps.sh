@@ -40,7 +40,7 @@ que foram removidos.
 
 -g, --git   Executa o comando \"git rm\" para todos os arquivos temporários.
             Para utilizar esta opção, deve-se estar na diretório root do
-            projeto.
+            projeto e os arquivos ainda devem existir.
 
 -h, --help Mostra esta tela de ajuda e sai
 -v, --version Mostra a versão do programa e sai
