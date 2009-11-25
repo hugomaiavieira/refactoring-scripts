@@ -36,6 +36,10 @@ OPÇÕES:
 -q, --quiet Executa em modo silencioso, não imprimindo na tela os arquivos
 que foram removidos.
 
+-g, --git   Executa o comando \"git rm\" para todos os arquivos temporários.
+            Para utilizar esta opção, deve-se estar na diretório root do
+            projeto.
+
 -h, --help Mostra esta tela de ajuda e sai
 -v, --version Mostra a versão do programa e sai
 
@@ -56,7 +60,9 @@ USO: "$0" PARÂMETROS [OPÇÕES]
 Utilize a opção --help para mais informações.
 "
 f=0
+git=0
 quiet=0
+frase_git=""
 
 #================= Tratamento de opções de linha de comando ====================
 
@@ -90,6 +96,8 @@ case "$1" in
       exit 0
     ;;
 
+      -g | --git) git=1 ;;
+
     -q | --quiet) quiet=1 ;;
 
      -h | --help) echo "$MENSAGEM_USO"; exit 0 ;;
@@ -114,8 +122,14 @@ for i in $(cat /tmp/temps)
 do
     rm $i
     W=$((W+1))
+    test "$git" = 1 && git rm $i 1> /dev/null
     test "$quiet" = 0 && echo $i
 done
 
-echo "Foram removidos $W arquivos temporários."
+if [ "$git" = 1 ] & [ "$W" -ne 0 ]
+then
+    frase_git="Também foram removidos do git."
+fi
+
+echo "Foram removidos $W arquivos temporários. $frase_git"
 
