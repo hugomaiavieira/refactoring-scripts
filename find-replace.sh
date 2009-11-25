@@ -34,7 +34,7 @@
 
 #=======================    Variáveis e chaves    ==============================
 
-MENSSAGEM_USO="
+MENSAGEM_USO="
 $(basename "$0") - Busca em um arquivo, ou recursivamente em todos os arquivos
                   de um diretório, por uma palavra e a substitui por outra.
 
@@ -77,7 +77,7 @@ EXEMPLOS:
   $ "$0" -f ~/sgtran/app/ -o Funcionário -n Solicitante -ef view/show.erb
 "
 
-MENSSAGEM_ERRO="
+MENSAGEM_ERRO="
 USO: "$0" PARÂMETROS [OPÇÕES]
 Utilize a opção --help para mais informações.
 "
@@ -176,16 +176,16 @@ do
 
     -q | --quiet)  quiet=1 ;;
 
-     -h | --help)  echo "$MENSSAGEM_USO";  exit 0 ;;
+     -h | --help)  echo "$MENSAGEM_USO";  exit 0 ;;
 
-               *)  echo "$MENSSAGEM_ERRO"; exit 1 ;;
+               *)  echo "$MENSAGEM_ERRO"; exit 1 ;;
   esac
   shift
 done
 
 if ( test "$f" = 0 || test "$o" = 0 || test "$n" = 0 )
 then
-  echo "$MENSSAGEM_ERRO"
+  echo "$MENSAGEM_ERRO"
   exit 1
 fi
 
