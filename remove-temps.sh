@@ -124,13 +124,23 @@ for i in $(cat /tmp/temps)
 do
     rm $i
     W=$((W+1))
-    test "$git" = 1 && git rm $i 1> /dev/null
+    if [ "$git" = 1 ]
+    then
+        git rm $i 1>& /dev/null
+        if [ $? = 1 ]
+        then
+            git=0
+            frase_git="Não foram removidos arquivos do git."
+        fi
+    fi
     test "$quiet" = 0 && echo $i
 done
 
 if [ "$git" = 1 ] & [ "$W" -ne 0 ]
 then
     frase_git="Também foram removidos do git."
+else
+    frase_git="Não foram removidos arquivos do git."
 fi
 
 echo "Foram removidos $W arquivos temporários. $frase_git"
