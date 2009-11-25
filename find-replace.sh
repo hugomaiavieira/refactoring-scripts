@@ -30,6 +30,7 @@
 #
 # Licença: GPL.
 #
+# TODO: Fazer parametros serem passados diretamente, sem -"alguma coisa"
 
 #=======================    Variáveis e chaves    ==============================
 
