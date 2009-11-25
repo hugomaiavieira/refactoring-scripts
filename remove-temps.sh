@@ -46,7 +46,7 @@ que foram removidos.
 -v, --version Mostra a versão do programa e sai
 
 
-EXEMPLO:
+EXEMPLOS:
 
 1)
 $ ls ~/sgtran/app/models
