@@ -48,6 +48,7 @@ que foram removidos.
 
 EXEMPLO:
 
+1)
 $ ls ~/sgtran/app/models
 usuario.rb usuario.rb~ usuario_session.rb usuario_session.rb~
 
@@ -55,6 +56,21 @@ $ "$0" -f ~/sgtran/app/models
 
 $ ls ~/sgtran/app/models
 usuario.rb usuario_session.rb
+
+2)
+$ git status
+# On branch master
+nothing to commit (working directory clean)
+
+$ "$0" -f . -g
+
+# On branch master
+# Changes to be committed:
+#   (use \"git reset HEAD <file>...\" to unstage)
+#
+#	deleted:    app/controllers/application_controller.rb~
+#	deleted:    app/controllers/usuario_sessions_controller.rb~
+#
 "
 
 MENSAGEM_ERRO="
