@@ -28,6 +28,7 @@
 # Licença: GPL.
 #
 # TODO: Adicionar opção de excluir diretórios e arquivos da busca.
+# TODO: Fazer parametros serem passados diretamente, sem -"alguma coisa"
 
 #=======================    Variáveis e chaves    ==============================
 
@@ -61,7 +62,7 @@ EXEMPLO:
   $ ls ~/diretorio
   fulanoAntiga.txt   ANTIGAblabla.sh   testeANTIGAteste.rb
 
-  $ "$0" ~/diretorio ANTIGA NOVA
+  $ "$0" -f ~/diretorio -o ANTIGA -n NOVA
 
   $ ls LOCAL
   fulanoAntiga.txt   NOVAblabla.sh   testeNOVAteste.rb
