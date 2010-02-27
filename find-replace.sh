@@ -23,6 +23,8 @@
 #  v1.5, 14-11-2009. Hugo Maia:
 #   - Adicionada mensagem de erro generalizada. Adicionados vários tratamentos
 #   de exceções.
+#  v1.6, 27-02-2010. Hugo Maia:
+#   - Corrigido bug do verbose para quando o parâmetro --file era um arquivo.
 #
 # ------------------------------------------------------------------------------
 #
@@ -192,7 +194,7 @@ fi
 #=========================    Processamento    =================================
 
 contador=0
-for i in $(grep -l "$recursivo" "$antiga" "$diretorio" $exclude_dir $exclude_file)
+for i in $(grep -l $recursivo "$antiga" "$diretorio" $exclude_dir $exclude_file)
 do
   sed "s/"$antiga"/"$nova"/g" $i > $i-temporario
   mv $i-temporario $i
