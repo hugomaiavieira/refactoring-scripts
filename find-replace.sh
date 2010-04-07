@@ -7,24 +7,26 @@
 #
 # Histórico:
 #
-#  v1.0, 20-10-2009, Hugo Maia:
+#  v1.0, 20-10-2009, Hugo Maia Vieira:
 #   - Versão inicial buscando recursivamente em todos os arquivos de uma
 #   dada pasta por uma palavra e a substitui por outra.
-#  v1.1, 14-11-2009. Hugo Maia:
+#  v1.1, 14-11-2009. Hugo Maia Vieira:
 #   - Adicionadas as opções -h, --help, -v e --version.
-#  v1.2, 14-11-2009. Hugo Maia:
+#  v1.2, 14-11-2009. Hugo Maia Vieira:
 #   - Separados os parâmetros para serem passados assim como as opções.
 #   Adicionadas as opções -q e --quiet. Adicionado contador de arquivos
 #   alterados.
-#  v1.3, 14-11-2009. Hugo Maia:
+#  v1.3, 14-11-2009. Hugo Maia Vieira:
 #   - Adicionadas as opções -ef e --exclude-file.
-#  v1.4, 14-11-2009. Hugo Maia:
+#  v1.4, 14-11-2009. Hugo Maia Vieira:
 #   - Adicionadas as opções -ed e --exclude-dir.
-#  v1.5, 14-11-2009. Hugo Maia:
+#  v1.5, 14-11-2009. Hugo Maia Vieira:
 #   - Adicionada mensagem de erro generalizada. Adicionados vários tratamentos
 #   de exceções.
-#  v1.6, 27-02-2010. Hugo Maia:
+#  v1.6, 27-02-2010. Hugo Maia Vieira:
 #   - Corrigido bug do verbose para quando o parâmetro --file era um arquivo.
+#  v1.7, 07-04-2010. Hugo Maia Vieira:
+#   - Corrigido bug ao passagem de parâmetros com espaço.
 #
 # ------------------------------------------------------------------------------
 #
@@ -196,7 +198,7 @@ fi
 contador=0
 for i in $(grep -l $recursivo "$antiga" "$diretorio" $exclude_dir $exclude_file)
 do
-  sed "s/"$antiga"/"$nova"/g" $i > $i-temporario
+  sed "s/$antiga/$nova/g" $i > $i-temporario
   mv $i-temporario $i
 
   test "$quiet" = 0 && echo "$i"
