@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# change-file-name.sh - Busca recursivamente em um diretório por arquivos que
-#                       contenham uma palavra em seu nome e a substitui por
-#                       outra. O programa deferência maiúsculas e minúsculas.
+# change-file-name  - Busca recursivamente em um diretório por arquivos que
+#                     contenham uma palavra em seu nome e a substitui por
+#                     outra. O programa diferência maiúsculas e minúsculas.
 #
 # ------------------------------------------------------------------------------
 #

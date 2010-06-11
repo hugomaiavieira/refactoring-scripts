@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# html-characters.sh - Busca em um arquivo, ou recursivamente em todos
+# html-characters    - Busca em um arquivo, ou recursivamente em todos
 #                      os arquivos de um diretório, por vogais acentuadas e
 #                      cedilha e as substitui por seu nome ou número equivalente
 #                      em HTML.

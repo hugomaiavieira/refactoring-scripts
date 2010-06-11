@@ -1,7 +1,8 @@
 #!/bin/bash
 #
-# find-replace.sh - Busca em um arquivo, ou recursivamente em todos os arquivos
-#                   de um diretório, por uma palavra e a substitui por outra.
+# find-replace   - Busca em um arquivo, ou recursivamente em todos os arquivos
+#                   de um diretório, por uma palavra (ou expressão regular) e a
+#                   substitui por outra.
 #
 # ------------------------------------------------------------------------------
 #
@@ -40,7 +41,8 @@
 
 MENSAGEM_USO="
 $(basename "$0") - Busca em um arquivo, ou recursivamente em todos os arquivos
-                  de um diretório, por uma palavra e a substitui por outra.
+                  de um diretório, por uma palavra (ou expressão regular) e a
+                  substitui por outra.
 
 
 USO: "$0" PARÂMETROS [OPÇÕES]

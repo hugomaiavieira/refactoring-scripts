@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# remove-temps.sh - Busca recursivamente em um diretório por arquivos
-#                   temporários e os elimina.
+# remove-temps   - Busca recursivamente em um diretório por arquivos
+#                  temporários e os elimina.
 #
 # ------------------------------------------------------------------------------
 #
@@ -36,7 +36,7 @@ PARÂMETROS:
 
 OPÇÕES:
 -q, --quiet Executa em modo silencioso, não imprimindo na tela os arquivos
-que foram removidos.
+            que foram removidos.
 
 -g, --git   Executa o comando \"git rm\" para todos os arquivos temporários.
             Para utilizar esta opção, deve-se estar na diretório root do
@@ -64,6 +64,7 @@ nothing to commit (working directory clean)
 
 $ "$0" -f . -g
 
+$ git status
 # On branch master
 # Changes to be committed:
 #   (use \"git reset HEAD <file>...\" to unstage)
