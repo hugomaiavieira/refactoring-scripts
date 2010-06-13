@@ -8,6 +8,6 @@
 FOLDER=$(cd $(dirname $0); pwd -P)
 
 [ ! -e $HOME/.refactoring-scripts ] && mkdir $HOME/.refactoring-scripts
-cp -rf $FOLDER/bin $HOME/.refactoring-scripts
+cp -f $FOLDER/bin/* $HOME/.refactoring-scripts
 sudo ln -sf $HOME/.refactoring-scripts/* /usr/bin
 
