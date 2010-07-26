@@ -62,9 +62,9 @@ removidos (através do comando clean).
 
 ####Comandos:
 
-  clean D           Remove os arquivos .backup criados em D e seus sub-diretórios.
+    clean D         Remove os arquivos .backup criados em D e seus sub-diretórios.
 
-  undo D            Desfaz as mudanças realizadas em D.
+    undo D          Desfaz as mudanças realizadas em D.
 
 ####Parâmetros
 
