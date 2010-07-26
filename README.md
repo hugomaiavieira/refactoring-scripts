@@ -100,11 +100,11 @@ removidos (através do comando clean).
 
     $ find-replace -f ~/sgtran -o viagems -n viagens -ed ".git"
 
-    $ "$0" clean ~/sgtran/
+    $ find-replace clean ~/sgtran/
 
     $ find-replace -f ~/sgtran/app/ -o Funcionário -n Solicitante -ef view/show.erb
 
-    $ "$0" undo ~/sgtran/app/
+    $ find-replace undo ~/sgtran/app/
 
 
 ###html-characters
