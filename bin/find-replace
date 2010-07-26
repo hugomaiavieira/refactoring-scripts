@@ -28,6 +28,8 @@
 #   - Corrigido bug do verbose para quando o parâmetro --file era um arquivo.
 #  v1.7, 07-04-2010. Hugo Maia Vieira:
 #   - Corrigido bug ao passagem de parâmetros com espaço.
+#  v1.8, 26-07-2010. Hugo Maia Vieira:
+#   - Adicionados comandos undo e clean.
 #
 # ------------------------------------------------------------------------------
 #
@@ -35,20 +37,29 @@
 #
 # Licença: GPL.
 #
-# TODO: Fazer parametros serem passados diretamente, sem -"alguma coisa"
+# TODO: Fazer parâmetros serem passados diretamente, sem -"alguma coisa"
 
 #=======================    Variáveis e chaves    ==============================
 
 MENSAGEM_USO="
 $(basename "$0") - Busca em um arquivo, ou recursivamente em todos os arquivos
                   de um diretório, por uma palavra (ou expressão regular) e a
-                  substitui por outra.
+                  substitui por outra; Cria arquivos .backup para posteriormente
+                  poder desfazer as mudanças (através do comando undo) ou serem
+                  removidos (através do comando clean).
 
 
-USO: "$0" PARÂMETROS [OPÇÕES]
+USO: "$0" (COMANDO diretório|PARÂMETROS) [OPÇÕES]
+
+COMANDOS:
+
+  clean D         Remove os arquivos .backup criados em D e seus sub-diretórios.
+
+  undo D          Desfaz as mudanças realizadas em D.
 
 
 PARÂMETROS:
+
   -f, --file      Arquivo ou diretório no qual a busca será feita. Sendo o
                   argumento um diretório, a busca será recursiva.
 
@@ -58,6 +69,7 @@ PARÂMETROS:
 
 
 OPÇÕES:
+
   --exclude-file  Exclui da busca arquivos cujos nomes coincidam com o argumento
                   informado. O argumento pode conter * para generalizações,
                   porém desta forma, deve ser passado entre aspas.
@@ -66,6 +78,8 @@ OPÇÕES:
                   o argumento informado. O argumento pode conter * para
                   generalizações, porém desta forma, deve ser passado entre
                   aspas.
+
+  --no-backup     Não cria os arquivos de backup.
 
   -q, --quiet     Executa em modo silencioso, não imprimindo na tela os arquivos
                   que foram alterados.
@@ -80,17 +94,24 @@ EXEMPLOS:
 
   $ "$0" -f ~/sgtran -o viagems -n viagens -ed ".git"
 
+  $ "$0" clean ~/sgtran/
+
   $ "$0" -f ~/sgtran/app/ -o Funcionário -n Solicitante -ef view/show.erb
+
+  $ "$0" undo ~/sgtran/app/
 "
 
 MENSAGEM_ERRO="
-USO: "$0" PARÂMETROS [OPÇÕES]
+USO: "$0" (COMANDO diretório|PARÂMETROS) [OPÇÕES]
 Utilize a opção --help para mais informações.
 "
 f=0
 o=0
 n=0
 quiet=0
+undo=0
+clean=0
+backup=1
 recursivo=''
 exclude_file=''
 exclude_dir=''
@@ -180,16 +201,41 @@ do
       exit 0
     ;;
 
-    -q | --quiet)  quiet=1 ;;
+    --no-backup) backup=0 ;;
 
-     -h | --help)  echo "$MENSAGEM_USO";  exit 0 ;;
+    -q | --quiet) quiet=1 ;;
 
-               *)  echo "$MENSAGEM_ERRO"; exit 1 ;;
+    -h | --help) echo "$MENSAGEM_USO";  exit 0 ;;
+
+    clean)
+      clean=1
+      shift
+      diretorio=$1
+      if test -z "$diretorio"
+      then
+        echo "$MENSAGEM_ERRO";
+        exit 1
+      fi
+      ;;
+
+    undo)
+      undo=1
+      shift
+      diretorio=$1
+      if test -z "$diretorio"
+      then
+        echo "$MENSAGEM_ERRO";
+        exit 1
+      fi
+      ;;
+
+    *)  echo "$MENSAGEM_ERRO"; exit 1 ;;
+
   esac
   shift
 done
 
-if ( test "$f" = 0 || test "$o" = 0 || test "$n" = 0 )
+if ( ( test "$clean" = 0 && test "$undo" = 0) && ( test "$f" = 0 || test "$o" = 0 || test "$n" = 0 ) )
 then
   echo "$MENSAGEM_ERRO"
   exit 1
@@ -197,9 +243,49 @@ fi
 
 #=========================    Processamento    =================================
 
+
+#============  Undo  ===============
+
+if [ $undo = 1 ]
+  then
+  find $diretorio -name *.backup > /tmp/backup
+
+  contador=0
+  for arquivo in $(cat /tmp/backup)
+  do
+      mv $arquivo ${arquivo%.backup}
+      echo ${arquivo%.backup}
+      contador=$((contador+1))
+  done
+
+  echo "Os $contador arquivos acima retornaram ao seu estado original."
+  exit 0
+fi
+
+#============  Clean  ==============
+
+if [ $clean = 1 ]
+  then
+  find $diretorio -name *.backup > /tmp/backup
+
+  contador=0
+  for arquivo in $(cat /tmp/backup)
+  do
+      rm $arquivo
+      echo $arquivo
+      contador=$((contador+1))
+  done
+
+  echo "Os $contador arquivos de backup acima foram removidos."
+  exit 0
+fi
+
+#=========  Substituição  ==========
+
 contador=0
 for i in $(grep -l $recursivo "$antiga" "$diretorio" $exclude_dir $exclude_file)
 do
+  [ $backup -eq 1 ] && cp $i $i.backup
   sed "s/$antiga/$nova/g" $i > $i-temporario
   mv $i-temporario $i
 

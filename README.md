@@ -56,7 +56,15 @@ seu nome e a substitui por outra. O programa diferência maiúsculas e minúscul
 ###find-replace
 
 Busca em um arquivo, ou recursivamente em todos os arquivos de um diretório, por
-uma palavra (ou expressão regular) e a substitui por outra.
+uma palavra (ou expressão regular) e a substitui por outra; Cria arquivos .backup
+para posteriormente poder desfazer as mudanças (através do comando undo) ou serem
+removidos (através do comando clean).
+
+####Comandos:
+
+  clean D           Remove os arquivos .backup criados em D e seus sub-diretórios.
+
+  undo D            Desfaz as mudanças realizadas em D.
 
 ####Parâmetros
 
@@ -92,7 +100,11 @@ uma palavra (ou expressão regular) e a substitui por outra.
 
     $ find-replace -f ~/sgtran -o viagems -n viagens -ed ".git"
 
+    $ "$0" clean ~/sgtran/
+
     $ find-replace -f ~/sgtran/app/ -o Funcionário -n Solicitante -ef view/show.erb
+
+    $ "$0" undo ~/sgtran/app/
 
 
 ###html-characters
@@ -126,6 +138,8 @@ formato `&#225;` e os nomes equivalentes em HTML seguem o formato `&aacute;`
                           coincidam com o argumento informado. O argumento pode
                           conter * para generalizações, porém desta forma, deve
                           ser passado entre aspas.
+
+    --no-backup           Não cria os arquivos de backup.
 
     -n, --numero          Substitui os caracteres por seu numero correspondente em
                           HTML.
