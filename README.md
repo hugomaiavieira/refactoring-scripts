@@ -111,7 +111,8 @@ removidos (através do comando clean).
 
 Busca em um arquivo, ou recursivamente em todos os arquivos de um diretório, por
 vogais acentuadas e cedilha e as substitui por seu nome ou número equivalente
-em HTML.
+em HTML. Com a opção --inverse, faz o contrário, substituindo os nomes (ou
+números) em HTML pelos caracteres correspondentes.
 
 Os caracteres substituídos são:
 
@@ -140,6 +141,9 @@ formato `&#225;` e os nomes equivalentes em HTML seguem o formato `&aacute;`
                           ser passado entre aspas.
 
     --no-backup           Não cria os arquivos de backup.
+
+    -i, --inverse         Faz o inverso, substituindo os códigos em HTML pelos
+                          caracteres correspondentes.
 
     -n, --numero          Substitui os caracteres por seu numero correspondente em
                           HTML.

@@ -42,8 +42,10 @@
 #
 # Histórico:
 #
-#  v1.0, 27-02-2010, Hugo Maia:
+#  v1.0, 27-02-2010, Hugo Maia Vieira:
 #   - Versão inicial.
+#  v1.1, 25-10-2010, Hugo Maia Vieira:
+#   - Adicionada opção inverse
 #
 # ------------------------------------------------------------------------------
 #
@@ -54,7 +56,9 @@ MENSAGEM_USO="
 $(basename "$0") - Busca em um arquivo, ou recursivamente em todos os arquivos
                      de um diretório, por por vogais acentuadas e cedilha e as
                      substitui por seu nome (padrão) ou número equivalente em
-                     HTML.
+                     HTML. Com a opção --inverse, faz o contrário, substituindo
+                     os nomes (ou números) em HTML pelos caracteres
+                     correspondentes.
 
                      Os caracteres substituídos são:
 
@@ -84,7 +88,10 @@ OPÇÕES:
                         conter * para generalizações, porém desta forma, deve
                         ser passado entre aspas.
 
-  -n, --numero          Substitui os caracteres por seu numero correspondente em
+  -i, --inverse         Faz o inverso, substituindo os códigos em HTML pelos
+                        caracteres correspondentes.
+
+  -n, --number          Substitui os caracteres por seu numero correspondente em
                         HTML.
 
   -q, --quiet           Executa em modo silencioso, não imprimindo na tela os
@@ -113,8 +120,9 @@ USO: "$0" PARÂMETROS [OPÇÕES]
 Utilize a opção --help para mais informações.
 "
 f=0
+inverse=0
 quiet=0
-numero=0
+number=0
 recursivo=""
 exclude_file=''
 exclude_dir=''
@@ -183,7 +191,9 @@ do
 
     -q | --quiet)  quiet=1 ;;
 
-    -n | --numero)  numero=1 ;;
+    -i | --inverse)  inverse=1 ;;
+
+    -n | --number)  number=1 ;;
 
     -h | --help)  echo "$MENSAGEM_USO";  exit 0 ;;
 
@@ -200,21 +210,40 @@ fi
 
 #=========================    Processamento    =================================
 
-indice=0
-for caractere in ${caracteres[*]}
-do
-    for i in $(grep -l $recursivo "$caractere" "$diretorio" $exclude_dir $exclude_file)
-    do
-      if test $numero -eq 0
+if [ $inverse -eq 1 ]; then
+  indice=0
+  for nome in ${nome_html[*]}; do
+    for i in $(grep -l $recursivo "$nome" "$diretorio" $exclude_dir $exclude_file); do
+      sed "s/"$nome"/"\\${caracteres[$indice]}"/g" $i > $i-temporario
+      mv $i-temporario $i
+      test "$quiet" = 0 && echo "Encontrados códigos HTML $nome no arquivo $i"
+    done
+    ((indice++))
+  done
+
+  indice=0
+  for numero in ${numero_html[*]}; do
+    for i in $(grep -l $recursivo "$numero" "$diretorio" $exclude_dir $exclude_file); do
+      sed "s/"$numero"/"\\${caracteres[$indice]}"/g" $i > $i-temporario
+      mv $i-temporario $i
+      test "$quiet" = 0 && echo "Encontrados códigos HTML $numero no arquivo $i"
+    done
+    ((indice++))
+  done
+else
+  indice=0
+  for caractere in ${caracteres[*]}; do
+    for i in $(grep -l $recursivo "$caractere" "$diretorio" $exclude_dir $exclude_file); do
+      if test $number -eq 0
       then
           sed "s/"$caractere"/"\\${nome_html[$indice]}"/g" $i > $i-temporario
       else
           sed "s/"$caractere"/"\\${numero_html[$indice]}"/g" $i > $i-temporario
       fi
       mv $i-temporario $i
-
-    test "$quiet" = 0 && echo "Encontrados caracteres $caractere no arquivo $i"
+      test "$quiet" = 0 && echo "Encontrados caracteres $caractere no arquivo $i"
     done
     ((indice++))
-done
+  done
+fi
 
