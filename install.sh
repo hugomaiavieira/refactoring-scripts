@@ -31,3 +31,9 @@ FOLDER=$(cd $(dirname $0); pwd -P)
 cp -f $FOLDER/bin/* $HOME/.refactoring-scripts
 sudo ln -sf $HOME/.refactoring-scripts/* /usr/bin
 
+if [ $? -eq 0 ]; then
+    echo "Intall with success!"
+else
+    echo "Intall fail!"
+fi
+
