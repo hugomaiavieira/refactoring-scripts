@@ -32,8 +32,7 @@ cp -f $FOLDER/bin/* $HOME/.refactoring-scripts
 sudo ln -sf $HOME/.refactoring-scripts/* /usr/bin
 
 if [ $? -eq 0 ]; then
-    echo "Intall with success!"
+    echo "Install with success!"
 else
-    echo "Intall fail!"
+    echo "Install fail!"
 fi
-
